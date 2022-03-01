@@ -1,3 +1,37 @@
-# inf6120_a22_tp1
+# Travail pratique 1 - Messagerie SmartMail 2.0
 
-TP1 du cours INF6120 suivi au printemps 2022.
+## Description
+
+Décrire ici le projet de façon assez générale. Vous pouvez reprendre tels quels
+des passages disponibles dans l'énoncé si vous voulez, mais n'hésitez pas
+à l'adapter à votre propre style.
+
+## Auteur
+
+Alexandre H. Bourdeau (HAMA12128907)
+
+## Fonctionnement
+
+Expliquer comment faire fonctionner le projet, en particulier
+
+- avertir l'utilisateur qu'il doit installer certaines dépendances (dire
+  lesquelles ou référer à la section);
+  - expliquer comment compiler le projet;
+
+  ## Contenu du projet
+
+  Décrire *tous* les fichiers contenus dans le dépôt. Utilisez une liste à puces.
+
+  ## Dépendances
+
+  Indiquer toutes les dépendances pour faire fonctionner ce projet. Dans chaque
+  cas, donnez un lien vers le site officiel de cette dépendance.
+
+  ## Références
+
+  Indiquer ici vos références s'il y a lieu. Si vous n'en avez pas utilisé,
+  supprimez cette section.
+
+  ## Statut
+
+  Indiquer si le projet est complété ou s'il y a eu des problèmes/limitations.
