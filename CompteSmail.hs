@@ -1,56 +1,81 @@
-{-|
-Module      : CompteSmail
-Description : Module pour la gestion des comptes de la messagerie SmartMail
-Copyright   : (c) Ange Tato
-License     : GPL-3
-Maintainer  : nyamen_tato.ange_adrienne@uqam.ca
-Stability   : experimental
+{- |
+Module      :  CompteSmail.hs
+Description :  Module pour la gestion des comptes de la messagerie SmartMail.
+Copyright   :  (c) Alexandre H. Bourdeau, HAMA12128907
+License     :  GPL-3
+
+Maintainer  :  alexandre.bourdeau@mailbox.org
+Stability   :  experimental
+Portability :  portable
 
 Ce module offre les fonctionalités permettant de manipuler les comptes SmartMail. 
- -}
+-}
+
 module CompteSmail where 
 
+import qualified Data.List as List
 import Personne
 import Trame
-type Contact = (Personne, Etat)
-type Explications = String 
-data Etat = Noir | Blanc deriving (Show, Eq, Read) -- Noir = contact dans liste noire (bloqué) , Blanc contact non bloqué
-type Reception = [Trame] -- boîte de reception
-type Envoi = [Trame] -- boîte d'envoi
-type Spams = [(Trame, Explications)] -- boîte des spams
-type Preferences = [Trame -> Bool]
-data CompteSmail  = CompteSmail Personne Reception Envoi Spams Preferences [Contact] -- Compte smail 
--- Vous devez faire du type CompteSmail une instance de la classe Show. Vous devez donc redéfinir la fonction show pour ce type. Voir les exemples pour voir comment l'affichage est gérer
+
+type Contact        = (Personne, Etat)
+type Explications   = String 
+data Etat           = Noir | Blanc deriving (Show, Eq, Read) -- Noir = contact dans liste noire (bloqué), Blanc contact non bloqué
+type Reception      = [Trame] -- Boîte de reception
+type Envoi          = [Trame] -- Boîte d'envoi
+type Spams          = [(Trame, Explications)] -- Boîte des spams
+type Preferences    = [Trame -> Bool]
+data CompteSmail    = CompteSmail
+                        Personne
+                        Reception
+                        Envoi
+                        Spams
+                        Preferences
+                        [Contact] -- Compte smail
+
+instance Show CompteSmail where
+    show (CompteSmail p r e s pr c) = ligne1 ++ ligne2 ++ ligne3 ++ ligne4 ++ ligne5
+        where
+            ligne1 = "CompteSmail " ++ show (courriel p) ++ ":"
+            ligne2 = "\nRecus = " ++ show r ++ ","
+            ligne3 = "\nEnvois = " ++ show e ++ ","
+            ligne4 = "\nSpams = " ++ show s ++ ","
+            ligne5 = "\nContacts = " ++ show (listeContacts (c))
 
 listeContacts [] = []
-listeContacts ((p,e):xs) = (courriel p, e):listeContacts xs
+listeContacts ((p, e):xs) = (courriel p, e):listeContacts xs
+
 
 -- | Retourne la personne à qui appartient le compte Smail
-personne :: CompteSmail -> Personne  -- boîte des spams
+personne :: CompteSmail -> Personne
 personne (CompteSmail p _ _ _ _ _) = p
 
--- | Retourne la liste des messages spams d'un compte Smail
-spams :: CompteSmail -> Spams  -- boîte des spams
-spams (CompteSmail _ _ _ s _ _) = s
-
--- | Retourne la liste des messages de la boîte d'envoi d'un compte Smail
-envoi :: CompteSmail -> Envoi  -- boîte des messages envoyés
-envoi  (CompteSmail _ _ e _ _ _)= e  
 
 -- | Retourne la liste des messages de la boîte  de reception d'un compte Smail
-reception :: CompteSmail -> Reception  -- boîte des messages reçus
+reception :: CompteSmail -> Reception 
 reception (CompteSmail _ r _ _ _ _) = r
+
+
+-- | Retourne la liste des messages de la boîte d'envoi d'un compte Smail
+envoi :: CompteSmail -> Envoi
+envoi (CompteSmail _ _ e _ _ _) = e  
+
+
+-- | Retourne la liste des messages spams d'un compte Smail
+spams :: CompteSmail -> Spams
+spams (CompteSmail _ _ _ s _ _) = s
+
 
 -- | Retourne la liste des préférences d'un compte Smail
 --
 -- filtres ou contraintes imposés par le titulaire d'un compte smail 
 -- exemple: je ne veux aucun message dont le courriel de l'expéditeur se termine pas ".zz"
 --          si la préférence n'est pas satisfaite, le message est automatiquement redirigé dans la boîte des spams
-preferences :: CompteSmail  -> Preferences 
+preferences :: CompteSmail  -> Preferences
 preferences (CompteSmail _ _ _ _ pr _) = pr
 
+
 -- | Retourne la liste de tous les contacts d'un compte Smail
-contacts :: CompteSmail  -> [Contact] 
+contacts :: CompteSmail  -> [Contact]
 contacts (CompteSmail _ _ _ _ _ c) = c 
 
 
@@ -132,11 +157,19 @@ csmail24 = CompteSmail pers13  [] [] [] [] []
 -- Spams = [],
 -- Contacts = [("robert.julien@smail.ca",Blanc),("tato.ange@smail.ca",Blanc)]
 ajouterContact :: Courriel -> Prenom -> Nom -> CompteSmail -> CompteSmail 
-ajouterContact  = error " à compléter"
+ajouterContact cc cp cn (CompteSmail csp csr cse css cspr csc) = (CompteSmail csp csr cse css cspr csc')
+    where
+        p = Personne cc (cp, cn)
+        e = Blanc
+        c = (p, e)
+        exis = filter (\(x, _) -> courriel x == cc) csc
+        csc' = case exis of 
+            []  ->  [c] ++ csc
+            _   ->  csc
 
 
-
--- | bloquer un contact
+-- | Bloquer un contact
+--
 -- Les paramètres sont : le compte à modifier, le contact à bloquer, le compte modifié
 --
 -- >>> csmail4'' = ajouterContact "robert.julien@smail.ca" "julien" "robert" $ ajouterContact "bourassa.alex@smail.ca" "alex" "bourassa" csmail4
@@ -147,12 +180,20 @@ ajouterContact  = error " à compléter"
 -- Spams = [],
 -- Contacts = [("robert.julien@smail.ca",Blanc),("bourassa.alex@smail.ca",Noir),("tato.ange@smail.ca",Blanc)]
 bloquerContact :: CompteSmail -> Personne -> CompteSmail 
-bloquerContact = error " à compléter"
+bloquerContact (CompteSmail csp csr cse css cspr csc) p = (CompteSmail csp csr cse css cspr csc')
+    where
+        leng = length csc
+        indc = List.findIndex (\(x, _) -> x == p) csc
+        cont = (p, Noir)
+        csc' = case indc of
+            Just indx   ->  (take indx csc) ++ [cont] ++ (drop (leng - indx) csc)
+            Nothing     ->  csc
 
 
 -- | Supprimer messages de la boîte de reception, d'envoi ou de spams d'un compte en fonction d'un filtre.
+--
 -- Tous les messages passant le filtre doivent être supprimés de la boîte spécifié.
--- Les paramètres : Le compte à vider, le type de la boîte : Spams, Envoi ou Reception, un filtre, le comptre modifié
+-- Les paramètres : Le compte à vider, le type de la boîte : Spams, Envoi ou Reception, un filtre, le compte modifié
 --
 -- >>> csmail4_1 = CompteSmail (Personne "noel.alice@smail.ca" ("alice","noel")) [trame3,trame4] [trame5,trame6] [(trame1,"majuscules"),(trame2,"points d'exclamation")] [] [(Personne "bourassa.alex@smail.ca" ("alex","bourassa"),Blanc),(Personne "robert.julien@smail.ca" ("julien","robert"),Blanc)]
 -- >>> reception $ supprimerMessagesAvecFiltre csmail4_1 "Reception" (\x -> elem '?' $ objet x)
@@ -165,7 +206,13 @@ bloquerContact = error " à compléter"
 -- Envois = [Trame (Entete (Date 2018 5 7) "Bienvenue $ " (Personne "equipesmartmail@smail.ca" ("equipe","smail")) [Personne "tato.ange@smail.ca" ("ange","tato")] [] []) "Bienvenue dans votre boite smartMail !",Trame (Entete (Date 2019 5 9) "Bienvenue" (Personne "tato.ange@smail.ca" ("ange","tato")) [Personne "robert.julien@smail.ca" ("julien","robert")] [] []) "Allo Robert"],
 -- Spams = [(Trame (Entete (Date 2020 12 21) "Bi!en! venue!" (Personne "equipesmartmail@smail.ca" ("equipe","smail")) [Personne "tato.ange@smail.ca" ("ange","tato")] [] []) "Bienvenue dans votre boite smartMail !","points d'exclamation")],
 -- Contacts = [("bourassa.alex@smail.ca",Blanc),("robert.julien@smail.ca",Blanc)]
-
-supprimerMessagesAvecFiltre :: CompteSmail  -> String ->(Trame -> Bool)-> CompteSmail 
-supprimerMessagesAvecFiltre = error " à compléter"
-
+supprimerMessagesAvecFiltre :: CompteSmail -> String -> (Trame -> Bool) -> CompteSmail 
+supprimerMessagesAvecFiltre (CompteSmail csp csr cse css cspr csc) ty fi
+    |   ty == "Reception"   = (CompteSmail csp csr' cse css cspr csc)
+    |   ty == "Envoi"       = (CompteSmail csp csr cse' css cspr csc)
+    |   ty == "Spams"       = (CompteSmail csp csr cse css' cspr csc)
+    |   otherwise           = (CompteSmail csp csr cse css cspr csc)
+    where
+        csr' = filter (not . fi) csr
+        cse' = filter (not . fi) cse
+        css' = filter (\(tr, ex) -> fi tr == False) css
