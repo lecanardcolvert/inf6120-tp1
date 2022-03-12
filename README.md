@@ -1,37 +1,52 @@
 # Travail pratique 1 - Messagerie SmartMail 2.0
 
+
 ## Description
 
-Décrire ici le projet de façon assez générale. Vous pouvez reprendre tels quels
-des passages disponibles dans l'énoncé si vous voulez, mais n'hésitez pas
-à l'adapter à votre propre style.
+SmartMail 2.0 permet à un utilisateur inscrit de disposer d'un service de messagerie électronique intelligent offrant trois boîtes (envoi, réception, spam). Les messages suspects sont automatiquement envoyés dans la boîte spam. Ils sont filtrés selon un ensemble de principes ou d'heuristiques spécifiques. L'utilisateur peut aussi entretenir un ensemble de contacts et éventuellement de préférences. L'état d'un contact suspect passera de 'blanc' à 'noir' indiquant ainsi son inscription dans la liste noire et provoquant une redirection automatique des messages reçus de ce contact dans la boîte spam. Un service d'administration de SmartMail 2.0 est offert pour la gestion des messages et la production de quelques statistiques d'intérêt. 
 
 ## Auteur
 
 Alexandre H. Bourdeau (HAMA12128907)
 
+
 ## Fonctionnement
 
-Expliquer comment faire fonctionner le projet, en particulier
+Pour faire fonctionner le projet, vous devez premièrement télécharger les fichiers du projet.
 
-- avertir l'utilisateur qu'il doit installer certaines dépendances (dire
-  lesquelles ou référer à la section);
-  - expliquer comment compiler le projet;
+Puis, installez le compilateur [GHC](https://www.haskell.org/downloads/) s'il n'est pas installé sur votre ordinateur.
 
-  ## Contenu du projet
+Ensuite, vous devez vous assurer que vous avez installé les dépendances listées ci-dessous.
 
-  Décrire *tous* les fichiers contenus dans le dépôt. Utilisez une liste à puces.
+Finalement, lancez le programme à l'aide de la commande `ghci SmartMail.hs`.
 
-  ## Dépendances
 
-  Indiquer toutes les dépendances pour faire fonctionner ce projet. Dans chaque
-  cas, donnez un lien vers le site officiel de cette dépendance.
+## Contenu du projet
 
-  ## Références
+Les fichiers du projet sont :
 
-  Indiquer ici vos références s'il y a lieu. Si vous n'en avez pas utilisé,
-  supprimez cette section.
+* CompteSmail.hs pour gérer les comptes SmartMail
+* Personne.hs pour gérer les personnes
+* SmartMail.hs pour gérer la base de données SmartMail
+* Trame.hs pour gérer le contenu des courriels
 
-  ## Statut
 
-  Indiquer si le projet est complété ou s'il y a eu des problèmes/limitations.
+## Dépendances
+
+* Data.Char [(site officiel)](https://hackage.haskell.org/package/base-4.16.0.0/docs/Data-Char.html)
+* Data.List [(site officiel)](https://hackage.haskell.org/package/base-4.16.0.0/docs/Data-List.html)
+* Data.Map [(site officiel)](https://hackage.haskell.org/package/containers-0.4.0.0/docs/Data-Map.html)
+* Data.Maybe [(site officiel)](https://hackage.haskell.org/package/base-4.16.0.0/docs/Data-Maybe.html)
+* Data.Time.Calendar [(site officiel)](https://hackage.haskell.org/package/time-1.13/docs/Data-Time-Calendar.html)
+* Data.Time.Clock [(site officiel)](https://hackage.haskell.org/package/time-1.13/docs/Data-Time-Clock.html)
+* System.IO.Unsafe [(site officiel)](https://hackage.haskell.org/package/base-4.16.0.0/docs/System-IO-Unsafe.html)
+
+
+## Références
+
+* [Learn you Haskell](http://learnyouhaskell.com/)
+
+
+## Statut
+
+Le projet est présentement en cours de développement.
