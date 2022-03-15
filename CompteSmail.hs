@@ -215,4 +215,70 @@ supprimerMessagesAvecFiltre (CompteSmail csp csr cse css cspr csc) ty fi
     where
         csr' = filter (not . fi) csr
         cse' = filter (not . fi) cse
-        css' = filter (\(tr, ex) -> fi tr == False) css
+        css' = filter (not . fi . fst) css
+
+
+-- | Ajouter un courriel dans la boîte de réception
+ajouterReception :: Trame -> CompteSmail -> CompteSmail 
+ajouterReception t (CompteSmail csp csr cse css cspr csc) = CompteSmail csp csr' cse css cspr csc
+    where
+        csr' = [t] ++ csr
+
+
+-- | Ajouter un courriel dans la boîte d'envoi
+ajouterEnvoi :: Trame -> CompteSmail -> CompteSmail 
+ajouterEnvoi t (CompteSmail csp csr cse css cspr csc) = CompteSmail csp csr cse' css cspr csc
+    where
+        cse' = [t] ++ cse
+
+
+-- | Ajouter un courriel dans la boîte de spam
+ajouterSpam :: (Trame, Explications) -> CompteSmail -> CompteSmail 
+ajouterSpam (t, e) (CompteSmail csp csr cse css cspr csc) = CompteSmail csp csr cse css' cspr csc
+    where
+        css' = [(t, e)] ++ css
+
+
+-- | Conserver les n premières trames de la boîte de réception
+conserverTrReception :: Int -> CompteSmail -> CompteSmail
+conserverTrReception 0 sm = sm
+conserverTrReception x (CompteSmail csp csr cse css cspr csc) = (CompteSmail csp csr' cse css cspr csc)
+    where
+        csr' = take x csr
+
+
+-- | Conserver les n premières trames de la boîte d'envoi
+conserverTrEnvoi :: Int -> CompteSmail -> CompteSmail
+conserverTrEnvoi 0 sm = sm
+conserverTrEnvoi x (CompteSmail csp csr cse css cspr csc) = (CompteSmail csp csr cse' css cspr csc)
+    where
+        cse' = take x cse
+
+
+-- | Conserver les n premières trames de la boîte de spam
+conserverTrSpam :: Int -> CompteSmail -> CompteSmail
+conserverTrSpam 0 sm = sm
+conserverTrSpam x (CompteSmail csp csr cse css cspr csc) = (CompteSmail csp csr cse css' cspr csc)
+    where
+        css' = take x css
+
+
+-- | Supprimer les trames de la boîte de réception qui ont une date strictement antérieure à celle spécifiée
+supprimerAncienTrReception :: Date -> CompteSmail -> CompteSmail
+supprimerAncienTrReception d (CompteSmail csp csr cse css cspr csc) = (CompteSmail csp csr' cse css cspr csc)
+    where
+        csr' = filter (\x -> date x < d) csr
+
+
+-- | Supprimer les trames de la boîte d'envoi qui ont une date strictement antérieure à celle spécifiée
+supprimerAncienTrEnvoi :: Date -> CompteSmail -> CompteSmail
+supprimerAncienTrEnvoi d (CompteSmail csp csr cse css cspr csc) = (CompteSmail csp csr cse' css cspr csc)
+    where
+        cse' = filter (\x -> date x < d) cse
+
+
+-- | Supprimer les trames de la boîte de spam qui ont une date strictement antérieure à celle spécifiée
+supprimerAncienTrSpam :: Date -> CompteSmail -> CompteSmail
+supprimerAncienTrSpam d (CompteSmail csp csr cse css cspr csc) = (CompteSmail csp csr cse css' cspr csc)
+    where
+        css' = filter (\(x, y) -> date x < d) css
