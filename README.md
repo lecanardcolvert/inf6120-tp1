@@ -40,11 +40,14 @@ Les fichiers du projet sont :
 * Data.Time.Calendar [(site officiel)](https://hackage.haskell.org/package/time-1.13/docs/Data-Time-Calendar.html)
 * Data.Time.Clock [(site officiel)](https://hackage.haskell.org/package/time-1.13/docs/Data-Time-Clock.html)
 * System.IO.Unsafe [(site officiel)](https://hackage.haskell.org/package/base-4.16.0.0/docs/System-IO-Unsafe.html)
+* Text.Regex.TDFA [(site officiel)](https://hackage.haskell.org/package/regex-tdfa-1.3.1.2/docs/Text-Regex-TDFA.html)
 
 
 ## Références
 
 * [Learn you Haskell](http://learnyouhaskell.com/)
+* [Converting numbers](https://wiki.haskell.org/Converting_numbers)
+* [A cheatsheet to regexes in Haskell](https://williamyaoh.com/posts/2019-04-11-cheatsheet-to-regexes-in-haskell.html)
 
 
 ## Statut
