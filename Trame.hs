@@ -37,32 +37,46 @@ type Message = (Courriel, [Courriel],[Courriel],[Courriel], Objet, Contenu) -- e
 date :: Trame -> Date
 date (Trame (Entete d _ _ _ _ _) _ ) = d
 
--- | Retourne l'année d'une date'
+
+-- | Retourne l'année d'une date
 annee :: Date -> Annee
 annee (Date a _ _) = a
+
+
+-- | Retourne le mois d'une date
+mois :: Date -> Mois
+mois (Date _ m _) = m
+
+
+-- | Retourne le jour d'une date
+jour :: Date -> Jour
+jour (Date _ _ j) = j
+
 
 -- | Retourne le courriel de l'metteur d'un message
 emetteur (Trame (Entete _ _ e _ _ _) _ ) = courriel e
 
+
 -- | Retourne la liste des courriels du ou des recepteurs principaux d'un message
 receveurs :: Trame -> [String]
-receveurs (Trame (Entete _ _ _ r _ _) _ ) = map courriel r 
+receveurs (Trame (Entete _ _ _ r _ _) _) = map courriel r 
+
 
 -- | Retourne la liste des courriels du ou des recepteurs en copie conforme dans un message
 receveurCc :: Trame -> [String]
-receveurCc (Trame (Entete _ _ _ _ rcc _) _ ) = map courriel rcc 
+receveurCc (Trame (Entete _ _ _ _ rcc _) _) = map courriel rcc 
+
 
 -- | Retourne la liste des courriels du ou des recepteurs en Cci dans un message
 receveurCci :: Trame -> [String]
-receveurCci (Trame (Entete _ _ _ _ _ rcci) _ ) = map courriel rcci 
+receveurCci (Trame (Entete _ _ _ _ _ rcci) _) = map courriel rcci 
+
 
 -- | Retourne l'objet d'un message
 objet :: Trame -> String
-objet (Trame (Entete _ o _ _ _ _) _ ) = o
+objet (Trame (Entete _ o _ _ _ _) _) = o
+
 
 -- | Retourne le contenu d'un message
 contenu :: Trame -> String
-contenu (Trame _ c ) = c
-
-
-
+contenu (Trame _ c) = c
