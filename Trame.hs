@@ -1,13 +1,15 @@
-{-|
-Module      : Trame
-Description : Module pour la gestion des trames
-Copyright   : (c) Ange Tato 
-License     : GPL-3
-Maintainer  : nyamen_tato.ange_adrienne@uqam.ca
-Stability   : experimental
+{- |
+Module      :  Trame.hs
+Description :  Module pour la gestion des trames.
+Copyright   :  (c) Ange Tato, adapté par Alexandre H. Bourdeau, HAMA12128907
+License     :  GPL-3
 
-Ce module offre les fonctionalités permettant de manipuler des trames de messages. 
- -}
+Maintainer  :  nyamen_tato.ange_adrienne@uqam.ca, alexandre.bourdeau@mailbox.org
+Stability   :  experimental
+Portability :  portable
+
+Ce module offre les fonctionalités permettant de manipuler les comptes SmartMail. 
+-}
 
 module Trame where
 
@@ -35,7 +37,7 @@ type Message = (Courriel, [Courriel],[Courriel],[Courriel], Objet, Contenu) -- e
 
 -- | Retourne la date d'envoi d'un message
 date :: Trame -> Date
-date (Trame (Entete d _ _ _ _ _) _ ) = d
+date (Trame (Entete d _ _ _ _ _) _) = d
 
 
 -- | Retourne l'année d'une date
@@ -53,28 +55,28 @@ jour :: Date -> Jour
 jour (Date _ _ j) = j
 
 
+-- | Retourne l'objet d'un message
+objet :: Trame -> String
+objet (Trame (Entete _ o _ _ _ _) _) = o
+
+
 -- | Retourne le courriel de l'metteur d'un message
-emetteur (Trame (Entete _ _ e _ _ _) _ ) = courriel e
+emetteur (Trame (Entete _ _ e _ _ _) _) = courriel e
 
 
--- | Retourne la liste des courriels du ou des recepteurs principaux d'un message
+-- | Retourne la liste des courriels du ou des receveurs principaux d'un message
 receveurs :: Trame -> [String]
 receveurs (Trame (Entete _ _ _ r _ _) _) = map courriel r 
 
 
--- | Retourne la liste des courriels du ou des recepteurs en copie conforme dans un message
+-- | Retourne la liste des courriels du ou des receveurs en copie conforme dans un message
 receveurCc :: Trame -> [String]
 receveurCc (Trame (Entete _ _ _ _ rcc _) _) = map courriel rcc 
 
 
--- | Retourne la liste des courriels du ou des recepteurs en Cci dans un message
+-- | Retourne la liste des courriels du ou des receveurs en Cci dans un message
 receveurCci :: Trame -> [String]
 receveurCci (Trame (Entete _ _ _ _ _ rcci) _) = map courriel rcci 
-
-
--- | Retourne l'objet d'un message
-objet :: Trame -> String
-objet (Trame (Entete _ o _ _ _ _) _) = o
 
 
 -- | Retourne le contenu d'un message

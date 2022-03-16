@@ -1,10 +1,10 @@
 {- |
 Module      :  CompteSmail.hs
 Description :  Module pour la gestion des comptes de la messagerie SmartMail.
-Copyright   :  (c) Alexandre H. Bourdeau, HAMA12128907
+Copyright   :  (c) Ange Tato, adapté par Alexandre H. Bourdeau, HAMA12128907
 License     :  GPL-3
 
-Maintainer  :  alexandre.bourdeau@mailbox.org
+Maintainer  :  nyamen_tato.ange_adrienne@uqam.ca, alexandre.bourdeau@mailbox.org
 Stability   :  experimental
 Portability :  portable
 

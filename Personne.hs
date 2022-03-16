@@ -1,10 +1,10 @@
 {- |
 Module      :  Personne.hs
 Description :  Module pour la gestion des personnes utilisant Smail.
-Copyright   :  (c) Alexandre H. Bourdeau, HAMA12128907
+Copyright   :  (c) Ange Tato, adapté par Alexandre H. Bourdeau, HAMA12128907
 License     :  GPL-3
 
-Maintainer  :  alexandre.bourdeau@mailbox.org
+Maintainer  :  nyamen_tato.ange_adrienne@uqam.ca, alexandre.bourdeau@mailbox.org
 Stability   :  experimental
 Portability :  portable
 
@@ -28,6 +28,7 @@ instance Eq Personne where
     (==) (Personne cour1 _ ) (Personne cour2 _ ) = cour1 == cour2
 
 -- | Retourne le courriel d'une personne
+--
 courriel :: Personne -> String
 courriel (Personne c _)= c
 
