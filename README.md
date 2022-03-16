@@ -5,6 +5,7 @@
 
 SmartMail 2.0 permet à un utilisateur inscrit de disposer d'un service de messagerie électronique intelligent offrant trois boîtes (envoi, réception, spam). Les messages suspects sont automatiquement envoyés dans la boîte spam. Ils sont filtrés selon un ensemble de principes ou d'heuristiques spécifiques. L'utilisateur peut aussi entretenir un ensemble de contacts et éventuellement de préférences. L'état d'un contact suspect passera de 'blanc' à 'noir' indiquant ainsi son inscription dans la liste noire et provoquant une redirection automatique des messages reçus de ce contact dans la boîte spam. Un service d'administration de SmartMail 2.0 est offert pour la gestion des messages et la production de quelques statistiques d'intérêt. 
 
+
 ## Auteur
 
 Alexandre H. Bourdeau (HAMA12128907)
@@ -25,9 +26,9 @@ Finalement, lancez le programme à l'aide de la commande `ghci SmartMail.hs`.
 
 Les fichiers du projet sont :
 
-* CompteSmail.hs pour gérer les comptes SmartMail
+* CompteSmail.hs pour gérer les comptes
 * Personne.hs pour gérer les personnes
-* SmartMail.hs pour gérer la base de données SmartMail
+* SmartMail.hs pour gérer la base de données
 * Trame.hs pour gérer le contenu des courriels
 
 
@@ -52,4 +53,4 @@ Les fichiers du projet sont :
 
 ## Statut
 
-Le projet est présentement en cours de développement.
+Le développement du projet est terminé. Certaines fonctionnalités n'ont pas été développées.
